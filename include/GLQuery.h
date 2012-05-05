@@ -36,43 +36,43 @@ namespace glp {
 template<GLenum TARGET>
 class Query : boost::noncopyable {
 public:
-	Query()
-	{
-		GLP_CHECKED_CALL(glGenQueries(1, &id);)
-	}
-	
-	void begin()
-	{
-		GLP_CHECKED_CALL(glBeginQuery(TARGET, id);)
-	}
-	
-	void end()
-	{
-		GLP_CHECKED_CALL(glEndQuery(TARGET);)
-	}
-	
-	bool available()
-	{
-		GLuint64 result;
-		GLP_CHECKED_CALL(glGetQueryObjectui64v(id, GL_QUERY_RESULT_AVAILABLE, &result);)
-		return result == GL_TRUE;
-	}
+    Query()
+    {
+        GLP_CHECKED_CALL(glGenQueries(1, &id);)
+    }
+    
+    void begin()
+    {
+        GLP_CHECKED_CALL(glBeginQuery(TARGET, id);)
+    }
+    
+    void end()
+    {
+        GLP_CHECKED_CALL(glEndQuery(TARGET);)
+    }
+    
+    bool available()
+    {
+        GLuint64 result;
+        GLP_CHECKED_CALL(glGetQueryObjectui64v(id, GL_QUERY_RESULT_AVAILABLE, &result);)
+        return result == GL_TRUE;
+    }
 
-	GLuint64 result()
-	{
-		GLuint64 result;
-		GLP_CHECKED_CALL(glGetQueryObjectui64v(id, GL_QUERY_RESULT, &result);)
-		return result;
-	}
-	
-	operator GLuint() const { return id; }
-	
-	~Query()
-	{
-		GLP_CHECKED_CALL(glDeleteQueries(1, &id);)
-	}
+    GLuint64 result()
+    {
+        GLuint64 result;
+        GLP_CHECKED_CALL(glGetQueryObjectui64v(id, GL_QUERY_RESULT, &result);)
+        return result;
+    }
+    
+    operator GLuint() const { return id; }
+    
+    ~Query()
+    {
+        GLP_CHECKED_CALL(glDeleteQueries(1, &id);)
+    }
 private:
-	GLuint id;
+    GLuint id;
 };
 
 }
