@@ -34,55 +34,55 @@ namespace glp {
 
 class SyncQuery : boost::noncopyable {
 public:
-	SyncQuery() : signaled_state(true)
-	{
-	}
-	
-	void fence()
-	{
-		if(!signaled_state) glDeleteSync(sync);
-		sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
-		signaled_state = false;
-	}
+    SyncQuery() : signaled_state(true)
+    {
+    }
+    
+    void fence()
+    {
+        if(!signaled_state) glDeleteSync(sync);
+        sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+        signaled_state = false;
+    }
 
-	bool signaled()
-	{
-		if(signaled_state)
-			return true;
-			
-		GLint status;
-		GLsizei length;
-		GLP_CHECKED_CALL(glGetSynciv(sync, GL_SYNC_STATUS, sizeof(status), &length, &status);)
-		signaled_state = (status == GL_SIGNALED);
-		if(signaled_state)
-			GLP_CHECKED_CALL(glDeleteSync(sync);)
-		return signaled_state;
-	}
-	
-	operator bool()
-	{
-		return signaled();
-	}
-	
-	GLenum wait(GLuint64 timeout)
-	{
-		GLenum result;
-		GLP_CHECKED_CALL(result = glClientWaitSync(sync, GL_SYNC_FLUSH_COMMANDS_BIT, timeout);)
-		if(result == GL_ALREADY_SIGNALED || result == GL_CONDITION_SATISFIED)
-		{
-			signaled_state = true;
-			GLP_CHECKED_CALL(glDeleteSync(sync);)
-		}
-		return result;
-	} 
-	
-	~SyncQuery()
-	{
-		if(!signaled_state) GLP_CHECKED_CALL(glDeleteSync(sync);)
-	}
+    bool signaled()
+    {
+        if(signaled_state)
+            return true;
+            
+        GLint status;
+        GLsizei length;
+        GLP_CHECKED_CALL(glGetSynciv(sync, GL_SYNC_STATUS, sizeof(status), &length, &status);)
+        signaled_state = (status == GL_SIGNALED);
+        if(signaled_state)
+            GLP_CHECKED_CALL(glDeleteSync(sync);)
+        return signaled_state;
+    }
+    
+    operator bool()
+    {
+        return signaled();
+    }
+    
+    GLenum wait(GLuint64 timeout)
+    {
+        GLenum result;
+        GLP_CHECKED_CALL(result = glClientWaitSync(sync, GL_SYNC_FLUSH_COMMANDS_BIT, timeout);)
+        if(result == GL_ALREADY_SIGNALED || result == GL_CONDITION_SATISFIED)
+        {
+            signaled_state = true;
+            GLP_CHECKED_CALL(glDeleteSync(sync);)
+        }
+        return result;
+    } 
+    
+    ~SyncQuery()
+    {
+        if(!signaled_state) GLP_CHECKED_CALL(glDeleteSync(sync);)
+    }
 private:
-	GLsync sync;
-	bool signaled_state;
+    GLsync sync;
+    bool signaled_state;
 };
 
 

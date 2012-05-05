@@ -49,75 +49,75 @@ public:
 };
 
 //better use macros instead of copy pasting this stuff all over the place
-#define MAKE_VEC_VEC_EXPRESSION(NAME, EXPR, FUNCTION)					\
-template<class T, unsigned D, class A, class B>							\
-class NAME : public VectorExpr<T, D, NAME<T, D, A, B> > {				\
-public:																	\
-	NAME(const A& pa, const B& pb) : a(pa), b(pb)	{ }					\
-	inline T operator[](unsigned i) const { return EXPR; }				\
-private:																\
-	const A& a;															\
-    const B& b;															\
-};																		\
-																		\
-template<class T, unsigned D, class A, class B>							\
-inline NAME<T,D,A,B>													\
-FUNCTION(const  VectorExpr<T,D,A> &a, const VectorExpr<T,D,B> &b)		\
-{																		\
-	return NAME<T,D,A,B>(a, b);											\
+#define MAKE_VEC_VEC_EXPRESSION(NAME, EXPR, FUNCTION)                   \
+template<class T, unsigned D, class A, class B>                         \
+class NAME : public VectorExpr<T, D, NAME<T, D, A, B> > {               \
+public:                                                                 \
+    NAME(const A& pa, const B& pb) : a(pa), b(pb)   { }                 \
+    inline T operator[](unsigned i) const { return EXPR; }              \
+private:                                                                \
+    const A& a;                                                         \
+    const B& b;                                                         \
+};                                                                      \
+                                                                        \
+template<class T, unsigned D, class A, class B>                         \
+inline NAME<T,D,A,B>                                                    \
+FUNCTION(const  VectorExpr<T,D,A> &a, const VectorExpr<T,D,B> &b)       \
+{                                                                       \
+    return NAME<T,D,A,B>(a, b);                                         \
 }
 
-#define MAKE_VEC_SCAL_EXPRESSION(NAME, EXPR, FUNCTION)					\
-template<class T, unsigned D, class A>									\
-class NAME : public VectorExpr<T, D, NAME<T, D, A> > {					\
-public:																	\
-	NAME(const A& pa, const T& pb) : a(pa), b(pb)	{ }					\
-	inline T operator[](unsigned i) const { return EXPR; }				\
-private:																\
-	const A& a;															\
-    const T& b;															\
-};																		\
-																		\
-template<class T, unsigned D, class A>									\
-inline NAME<T,D,A>														\
-FUNCTION(const  VectorExpr<T,D,A> &a, const T &b)						\
-{																		\
-	return NAME<T,D,A>(a, b);											\
+#define MAKE_VEC_SCAL_EXPRESSION(NAME, EXPR, FUNCTION)                  \
+template<class T, unsigned D, class A>                                  \
+class NAME : public VectorExpr<T, D, NAME<T, D, A> > {                  \
+public:                                                                 \
+    NAME(const A& pa, const T& pb) : a(pa), b(pb)   { }                 \
+    inline T operator[](unsigned i) const { return EXPR; }              \
+private:                                                                \
+    const A& a;                                                         \
+    const T& b;                                                         \
+};                                                                      \
+                                                                        \
+template<class T, unsigned D, class A>                                  \
+inline NAME<T,D,A>                                                      \
+FUNCTION(const  VectorExpr<T,D,A> &a, const T &b)                       \
+{                                                                       \
+    return NAME<T,D,A>(a, b);                                           \
 }
 
-#define MAKE_SCAL_VEC_EXPRESSION(NAME, EXPR, FUNCTION)					\
-template<class T, unsigned D, class A>									\
-class NAME : public VectorExpr<T, D, NAME<T, D, A> > {					\
-public:																	\
-	NAME(const T& pa, const A& pb) : a(pa), b(pb)	{ }					\
-	inline T operator[](unsigned i) const { return EXPR; }				\
-private:																\
-	const T& a;															\
-    const A& b;															\
-};																		\
-																		\
-template<class T, unsigned D, class A>									\
-inline NAME<T,D,A>														\
-FUNCTION(const T &a, const VectorExpr<T,D,A> &b)						\
-{																		\
-	return NAME<T,D,A>(a, b);											\
+#define MAKE_SCAL_VEC_EXPRESSION(NAME, EXPR, FUNCTION)                  \
+template<class T, unsigned D, class A>                                  \
+class NAME : public VectorExpr<T, D, NAME<T, D, A> > {                  \
+public:                                                                 \
+    NAME(const T& pa, const A& pb) : a(pa), b(pb)   { }                 \
+    inline T operator[](unsigned i) const { return EXPR; }              \
+private:                                                                \
+    const T& a;                                                         \
+    const A& b;                                                         \
+};                                                                      \
+                                                                        \
+template<class T, unsigned D, class A>                                  \
+inline NAME<T,D,A>                                                      \
+FUNCTION(const T &a, const VectorExpr<T,D,A> &b)                        \
+{                                                                       \
+    return NAME<T,D,A>(a, b);                                           \
 }
 
-#define MAKE_VEC_EXPRESSION(NAME, EXPR, FUNCTION)						\
-template<class T, unsigned D, class A>									\
-class NAME : public VectorExpr<T, D, NAME<T, D, A> > {					\
-public:																	\
-	NAME(const A& pa) : a(pa)	{ }										\
-	inline T operator[](unsigned i) const { return EXPR; }				\
-private:																\
-	const A& a;															\
-};																		\
-																		\
-template<class T, unsigned D, class A>									\
-inline NAME<T,D,A>														\
-FUNCTION(const VectorExpr<T,D,A> &a)									\
-{																		\
-	return NAME<T,D,A>(a);												\
+#define MAKE_VEC_EXPRESSION(NAME, EXPR, FUNCTION)                       \
+template<class T, unsigned D, class A>                                  \
+class NAME : public VectorExpr<T, D, NAME<T, D, A> > {                  \
+public:                                                                 \
+    NAME(const A& pa) : a(pa)   { }                                     \
+    inline T operator[](unsigned i) const { return EXPR; }              \
+private:                                                                \
+    const A& a;                                                         \
+};                                                                      \
+                                                                        \
+template<class T, unsigned D, class A>                                  \
+inline NAME<T,D,A>                                                      \
+FUNCTION(const VectorExpr<T,D,A> &a)                                    \
+{                                                                       \
+    return NAME<T,D,A>(a);                                              \
 }
 
 //create actual functions and operators
@@ -201,7 +201,7 @@ public:
         return data;
     }
 
-	
+    
     template<class T2, class A>
     Vector(const VectorExpr<T2, D, A>& a)
     {
@@ -371,8 +371,8 @@ template<class T, class A, class B>
 inline Vector<T, 3> cross(const VectorExpr<T, 3, A>& a, const VectorExpr<T, 3, B>& b)
 {
     const A& ao ( a );
-	const B& bo ( b );
-	return Vector<T, 3>(ao[1]*bo[2]-ao[2]*bo[1], ao[2]*bo[0]-ao[0]*bo[2], ao[0]*bo[1]-ao[1]*bo[0]);
+    const B& bo ( b );
+    return Vector<T, 3>(ao[1]*bo[2]-ao[2]*bo[1], ao[2]*bo[0]-ao[0]*bo[2], ao[0]*bo[1]-ao[1]*bo[0]);
 }
 
 template<class T, unsigned D, class A>
@@ -423,8 +423,8 @@ std::ostream& operator<<(std::ostream& out, const VectorExpr<T, D, A>& a)
 template<class T, unsigned D>
 struct vector_traits< Vector<T,D> >
 {
-	typedef T element_type;
-	static const size_t dimension = D;
+    typedef T element_type;
+    static const size_t dimension = D;
 };
 
 #undef MAKE_VEC_VEC_EXPRESSION

@@ -36,69 +36,69 @@
 #include "GLCheckError.h"
 
 namespace glp {
-	
+    
 class GLSL_shader_exception : public std::runtime_error
 {
 public:
-	GLSL_shader_exception(std::string what)
-	: runtime_error(what)
-	{ }
+    GLSL_shader_exception(std::string what)
+    : runtime_error(what)
+    { }
 };
 
 class ShaderProgram {
 public:
-	ShaderProgram()
-	 : 	compiled(false),
-		has_geometry_shader(false), has_vertex_shader(false),
-		has_fragment_shader(false), linked(false) { }
+    ShaderProgram()
+     :  compiled(false),
+        has_geometry_shader(false), has_vertex_shader(false),
+        has_fragment_shader(false), linked(false) { }
 
-	void setGeometryShaderSource(const std::string &source);
-	void setVertexShaderSource(const std::string &source);
-	void setFragmentShaderSource(const std::string &source);
-	void compileProgram();
-	void linkProgram();
-	void bindAttributeLocation(const GLuint id, const std::string &name);
-	void bindFragDataLocation(const GLuint id, const std::string &name);
-	void setTransformFeedbackVaryings(std::vector<const char*>);
-	void bindProgram();
-	void unbindProgram();
-	void deleteProgram();
-	
-	GLint getUniformLocation(const std::string &name);
-	void setUniform(const std::string &name, GLint val1);
-	void setUniform(const std::string &name, GLint val1, GLint val2);
-	void setUniform(const std::string &name, GLint val1, GLint val2, GLint val3);
-	void setUniform(const std::string &name, GLint val1, GLint val2, GLint val3, GLint val4);
-	void setUniform(const std::string &name, GLfloat val1);
-	void setUniform(const std::string &name, GLfloat val1, GLfloat val2);
-	void setUniform(const std::string &name, GLfloat val1, GLfloat val2, GLfloat val3);
-	void setUniform(const std::string &name, GLfloat val1, GLfloat val2, GLfloat val3, GLfloat val4);
-	void setUniform(const std::string &name, int size, GLint *val, int count = 1);
-	void setUniform(const std::string &name, int size, GLfloat *val, int count = 1);
-	void setUniformMatrix(const std::string &name, int width, int height, GLfloat *val, int count = 1);
-	void setUniform(GLint location, GLint val1);
-	void setUniform(GLint location, GLint val1, GLint val2);
-	void setUniform(GLint location, GLint val1, GLint val2, GLint val3);
-	void setUniform(GLint location, GLint val1, GLint val2, GLint val3, GLint val4);
-	void setUniform(GLint location, GLfloat val1);
-	void setUniform(GLint location, GLfloat val1, GLfloat val2);
-	void setUniform(GLint location, GLfloat val1, GLfloat val2, GLfloat val3);
-	void setUniform(GLint location, GLfloat val1, GLfloat val2, GLfloat val3, GLfloat val4);
-	void setUniform(GLint location, int size, GLint *val, int count = 1);
-	void setUniform(GLint location, int size, GLfloat *val, int count = 1);
-	void setUniformMatrix(GLint location, int width, int height, GLfloat *val, int count = 1);
-	
-	std::vector<unsigned char> getBinary();
-	void loadBinary(std::vector<unsigned char>&);
-	
-	~ShaderProgram();
+    void setGeometryShaderSource(const std::string &source);
+    void setVertexShaderSource(const std::string &source);
+    void setFragmentShaderSource(const std::string &source);
+    void compileProgram();
+    void linkProgram();
+    void bindAttributeLocation(const GLuint id, const std::string &name);
+    void bindFragDataLocation(const GLuint id, const std::string &name);
+    void setTransformFeedbackVaryings(std::vector<const char*>);
+    void bindProgram();
+    void unbindProgram();
+    void deleteProgram();
+    
+    GLint getUniformLocation(const std::string &name);
+    void setUniform(const std::string &name, GLint val1);
+    void setUniform(const std::string &name, GLint val1, GLint val2);
+    void setUniform(const std::string &name, GLint val1, GLint val2, GLint val3);
+    void setUniform(const std::string &name, GLint val1, GLint val2, GLint val3, GLint val4);
+    void setUniform(const std::string &name, GLfloat val1);
+    void setUniform(const std::string &name, GLfloat val1, GLfloat val2);
+    void setUniform(const std::string &name, GLfloat val1, GLfloat val2, GLfloat val3);
+    void setUniform(const std::string &name, GLfloat val1, GLfloat val2, GLfloat val3, GLfloat val4);
+    void setUniform(const std::string &name, int size, GLint *val, int count = 1);
+    void setUniform(const std::string &name, int size, GLfloat *val, int count = 1);
+    void setUniformMatrix(const std::string &name, int width, int height, GLfloat *val, int count = 1);
+    void setUniform(GLint location, GLint val1);
+    void setUniform(GLint location, GLint val1, GLint val2);
+    void setUniform(GLint location, GLint val1, GLint val2, GLint val3);
+    void setUniform(GLint location, GLint val1, GLint val2, GLint val3, GLint val4);
+    void setUniform(GLint location, GLfloat val1);
+    void setUniform(GLint location, GLfloat val1, GLfloat val2);
+    void setUniform(GLint location, GLfloat val1, GLfloat val2, GLfloat val3);
+    void setUniform(GLint location, GLfloat val1, GLfloat val2, GLfloat val3, GLfloat val4);
+    void setUniform(GLint location, int size, GLint *val, int count = 1);
+    void setUniform(GLint location, int size, GLfloat *val, int count = 1);
+    void setUniformMatrix(GLint location, int width, int height, GLfloat *val, int count = 1);
+    
+    std::vector<unsigned char> getBinary();
+    void loadBinary(std::vector<unsigned char>&);
+    
+    ~ShaderProgram();
 private:
-	GLuint geometry_shader, vertex_shader, fragment_shader, shader_program;
-	std::string vertex_source, fragment_source, geometry_source;
-	bool compiled, has_geometry_shader, has_vertex_shader, has_fragment_shader, linked;
-	
-	void check_shader_compile_status(GLuint);
-	void check_program_link_status(GLuint);
+    GLuint geometry_shader, vertex_shader, fragment_shader, shader_program;
+    std::string vertex_source, fragment_source, geometry_source;
+    bool compiled, has_geometry_shader, has_vertex_shader, has_fragment_shader, linked;
+    
+    void check_shader_compile_status(GLuint);
+    void check_program_link_status(GLuint);
 };
 
 

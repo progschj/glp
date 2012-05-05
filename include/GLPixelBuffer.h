@@ -37,139 +37,139 @@ namespace glp {
 template<class T>
 class PixelUnpackBuffer : public Buffer<T,GL_PIXEL_UNPACK_BUFFER> {
 public:
-	typedef Buffer<T,GL_PIXEL_UNPACK_BUFFER> base_type;
+    typedef Buffer<T,GL_PIXEL_UNPACK_BUFFER> base_type;
 
-	PixelUnpackBuffer(size_t s)
-		: base_type(s, GL_DYNAMIC_DRAW)
-	{ }
-	
-	void map()
-	{
-		base_type::map(GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
-	}
-	
-	void copyTo(Texture2D &texture)
-	{
-		copyTo(texture, 0);
-	}
-	
-	void copyTo(Texture2D &texture, GLint level)
-	{
-		this->check_unmapped();
-		GLenum format = texture.getFormat();
-		GLsizei components = getComponents(format);
-		GLsizei width = std::max(1,texture.getWidth()/(1<<level));
-		GLsizei height = std::max(1,texture.getHeight()/(1<<level));
-		
-		if(this->size() != size_t(components*width*height))
-			throw std::runtime_error("PixelUnpackBuffer does not match texture size");
-		
+    PixelUnpackBuffer(size_t s)
+        : base_type(s, GL_DYNAMIC_DRAW)
+    { }
+    
+    void map()
+    {
+        base_type::map(GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+    }
+    
+    void copyTo(Texture2D &texture)
+    {
+        copyTo(texture, 0);
+    }
+    
+    void copyTo(Texture2D &texture, GLint level)
+    {
+        this->check_unmapped();
+        GLenum format = texture.getFormat();
+        GLsizei components = getComponents(format);
+        GLsizei width = std::max(1,texture.getWidth()/(1<<level));
+        GLsizei height = std::max(1,texture.getHeight()/(1<<level));
+        
+        if(this->size() != size_t(components*width*height))
+            throw std::runtime_error("PixelUnpackBuffer does not match texture size");
+        
 
-		this->bind();
-		texture.bind();
-		GLP_CHECKED_CALL(
-		glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, width, height,
-					getDataFormat(format),
-					TypeToGLConstant<
-						typename boost::remove_const<T>::type
-					>::value,
-					0);
-		)
-		
-		this->unbind();
-	}
-	
-	void copyTo(Texture2D &texture, GLint offsetx, GLint offsety, GLsizei width, GLsizei height)
-	{
-		copyTo(texture, offsetx, offsety, width, height, 0);
-	}
-	
-	void copyTo(Texture2D &texture, GLint offsetx, GLint offsety, GLsizei width, GLsizei height, GLint level)
-	{
-		this->check_unmapped();
-		GLenum format = texture.getFormat();
-		GLsizei components = getComponents(format);
-		
-		if(this->size() != size_t(components*width*height))
-			throw std::runtime_error("PixelUnpackBuffer does not match texture size");
-		
+        this->bind();
+        texture.bind();
+        GLP_CHECKED_CALL(
+        glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, width, height,
+                    getDataFormat(format),
+                    TypeToGLConstant<
+                        typename boost::remove_const<T>::type
+                    >::value,
+                    0);
+        )
+        
+        this->unbind();
+    }
+    
+    void copyTo(Texture2D &texture, GLint offsetx, GLint offsety, GLsizei width, GLsizei height)
+    {
+        copyTo(texture, offsetx, offsety, width, height, 0);
+    }
+    
+    void copyTo(Texture2D &texture, GLint offsetx, GLint offsety, GLsizei width, GLsizei height, GLint level)
+    {
+        this->check_unmapped();
+        GLenum format = texture.getFormat();
+        GLsizei components = getComponents(format);
+        
+        if(this->size() != size_t(components*width*height))
+            throw std::runtime_error("PixelUnpackBuffer does not match texture size");
+        
 
-		this->bind();
-		texture.bind();
-		
-		GLP_CHECKED_CALL(
-		glTexSubImage2D(GL_TEXTURE_2D, level, offsetx, offsety, width, height,
-					getDataFormat(format),
-					TypeToGLConstant<
-						typename boost::remove_const<T>::type
-					>::value,
-					0);
-		)
-		
-		this->unbind();
-	}
+        this->bind();
+        texture.bind();
+        
+        GLP_CHECKED_CALL(
+        glTexSubImage2D(GL_TEXTURE_2D, level, offsetx, offsety, width, height,
+                    getDataFormat(format),
+                    TypeToGLConstant<
+                        typename boost::remove_const<T>::type
+                    >::value,
+                    0);
+        )
+        
+        this->unbind();
+    }
 
-	void copyTo(Texture3D &texture)
-	{
-		copyTo(texture, 0);
-	}
-	
-	void copyTo(Texture3D &texture, GLint level)
-	{
-		this->check_unmapped();
-		GLenum format = texture.getFormat();
-		GLsizei components = getComponents(format);
-		GLsizei width = std::max(1,texture.getWidth()/(1<<level));
-		GLsizei height = std::max(1,texture.getHeight()/(1<<level));
-		GLsizei depth = std::max(1,texture.getDepth()/(1<<level));
-		
-		if(this->size() != size_t(components*width*height*depth))
-			throw std::runtime_error("PixelUnpackBuffer does not match texture size");
-		
+    void copyTo(Texture3D &texture)
+    {
+        copyTo(texture, 0);
+    }
+    
+    void copyTo(Texture3D &texture, GLint level)
+    {
+        this->check_unmapped();
+        GLenum format = texture.getFormat();
+        GLsizei components = getComponents(format);
+        GLsizei width = std::max(1,texture.getWidth()/(1<<level));
+        GLsizei height = std::max(1,texture.getHeight()/(1<<level));
+        GLsizei depth = std::max(1,texture.getDepth()/(1<<level));
+        
+        if(this->size() != size_t(components*width*height*depth))
+            throw std::runtime_error("PixelUnpackBuffer does not match texture size");
+        
 
-		this->bind();
-		texture.bind();
-		GLP_CHECKED_CALL(
-		glTexSubImage3D(GL_TEXTURE_3D, level, 0, 0, 0, width, height, depth,
-					getDataFormat(format),
-					TypeToGLConstant<
-						typename boost::remove_const<T>::type
-					>::value,
-					0);
-		)
-		
-		this->unbind();
-	}
-	
-	void copyTo(Texture3D &texture, GLint offsetx, GLint offsety, GLint offsetz, GLsizei width, GLsizei height, GLsizei depth)
-	{
-		copyTo(texture, offsetx, offsety, offsetz, width, height, depth, 0);
-	}
-	
-	void copyTo(Texture3D &texture, GLint offsetx, GLint offsety, GLint offsetz, GLsizei width, GLsizei height, GLsizei depth, GLint level)
-	{
-		this->check_unmapped();
-		GLenum format = texture.getFormat();
-		GLsizei components = getComponents(format);
-		
-		if(this->size() != size_t(components*width*height*depth))
-			throw std::runtime_error("PixelUnpackBuffer does not match texture size");
-		
+        this->bind();
+        texture.bind();
+        GLP_CHECKED_CALL(
+        glTexSubImage3D(GL_TEXTURE_3D, level, 0, 0, 0, width, height, depth,
+                    getDataFormat(format),
+                    TypeToGLConstant<
+                        typename boost::remove_const<T>::type
+                    >::value,
+                    0);
+        )
+        
+        this->unbind();
+    }
+    
+    void copyTo(Texture3D &texture, GLint offsetx, GLint offsety, GLint offsetz, GLsizei width, GLsizei height, GLsizei depth)
+    {
+        copyTo(texture, offsetx, offsety, offsetz, width, height, depth, 0);
+    }
+    
+    void copyTo(Texture3D &texture, GLint offsetx, GLint offsety, GLint offsetz, GLsizei width, GLsizei height, GLsizei depth, GLint level)
+    {
+        this->check_unmapped();
+        GLenum format = texture.getFormat();
+        GLsizei components = getComponents(format);
+        
+        if(this->size() != size_t(components*width*height*depth))
+            throw std::runtime_error("PixelUnpackBuffer does not match texture size");
+        
 
-		this->bind();
-		texture.bind();
-		
-		GLP_CHECKED_CALL(
-		glTexSubImage3D(GL_TEXTURE_3D, level, offsetx, offsety, offsetz, width, height, depth,
-					getDataFormat(format),
-					TypeToGLConstant<
-						typename boost::remove_const<T>::type
-					>::value,
-					0);
-		)
-		
-		this->unbind();
-	}
+        this->bind();
+        texture.bind();
+        
+        GLP_CHECKED_CALL(
+        glTexSubImage3D(GL_TEXTURE_3D, level, offsetx, offsety, offsetz, width, height, depth,
+                    getDataFormat(format),
+                    TypeToGLConstant<
+                        typename boost::remove_const<T>::type
+                    >::value,
+                    0);
+        )
+        
+        this->unbind();
+    }
 };
 
 
@@ -178,35 +178,35 @@ public:
 template<class T>
 class PixelPackBuffer : public Buffer<T,GL_PIXEL_PACK_BUFFER>  {
 public:
-	typedef Buffer<T,GL_PIXEL_PACK_BUFFER> base_type;
-	
-	PixelPackBuffer(size_t s)
-		: base_type(s, GL_STREAM_READ)
-	{ }
-	
-	void map()
-	{
-		base_type::map(GL_MAP_READ_BIT);
-	}
+    typedef Buffer<T,GL_PIXEL_PACK_BUFFER> base_type;
+    
+    PixelPackBuffer(size_t s)
+        : base_type(s, GL_STREAM_READ)
+    { }
+    
+    void map()
+    {
+        base_type::map(GL_MAP_READ_BIT);
+    }
 
-	void readPixels(GLenum source, GLint  x,  GLint  y,  GLsizei  width,  GLsizei  height,  GLenum  format)
-	{
-		GLsizei components = getComponents(format);
-		if(this->size() != size_t(components*width*height))
-			throw std::runtime_error("PixelPackBuffer does not match rectangle size");
-			
-		glReadBuffer(source);
-		this->bind();
-		GLP_CHECKED_CALL(
-		glReadPixels(x, y, width, height,
-			format,
-			TypeToGLConstant<
-						typename boost::remove_const<T>::type
-					>::value,
-			0);
-		)
-		this->unbind();
-	}
+    void readPixels(GLenum source, GLint  x,  GLint  y,  GLsizei  width,  GLsizei  height,  GLenum  format)
+    {
+        GLsizei components = getComponents(format);
+        if(this->size() != size_t(components*width*height))
+            throw std::runtime_error("PixelPackBuffer does not match rectangle size");
+            
+        glReadBuffer(source);
+        this->bind();
+        GLP_CHECKED_CALL(
+        glReadPixels(x, y, width, height,
+            format,
+            TypeToGLConstant<
+                        typename boost::remove_const<T>::type
+                    >::value,
+            0);
+        )
+        this->unbind();
+    }
 };
 
 }

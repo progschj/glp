@@ -37,37 +37,37 @@ namespace glp {
 class exception : public std::runtime_error
 {
 public:
-	exception(GLenum c, const std::string &what)
-	: runtime_error(what), code(c)
-	{ }
-	exception(const std::string &what)
-	: runtime_error(what), code(0)
-	{ }
-	GLenum code;
+    exception(GLenum c, const std::string &what)
+    : runtime_error(what), code(c)
+    { }
+    exception(const std::string &what)
+    : runtime_error(what), code(0)
+    { }
+    GLenum code;
 };
 
 inline void checkGlErrors()
 {
-	GLenum error = glGetError();
-	if(error != GL_NO_ERROR)
-	{
-		throw exception(error, reinterpret_cast<const char*>(gluErrorString(error)));
-	}
+    GLenum error = glGetError();
+    if(error != GL_NO_ERROR)
+    {
+        throw exception(error, reinterpret_cast<const char*>(gluErrorString(error)));
+    }
 }
 
 inline void checkGlErrors(std::string location)
 {
-	GLenum error = glGetError();
-	if(error != GL_NO_ERROR)
-	{
-		throw exception(error, std::string(reinterpret_cast<const char*>(gluErrorString(error))) + " after: " + location);
-	}
+    GLenum error = glGetError();
+    if(error != GL_NO_ERROR)
+    {
+        throw exception(error, std::string(reinterpret_cast<const char*>(gluErrorString(error))) + " after: " + location);
+    }
 }
 
 #ifdef GLP_DEBUG
-	#define GLP_CHECKED_CALL(arg) { arg  glp::checkGlErrors(__FILE__ " : " #arg  " " ); }
+    #define GLP_CHECKED_CALL(arg) { arg  glp::checkGlErrors(__FILE__ " : " #arg  " " ); }
 #else
-	#define GLP_CHECKED_CALL(arg) arg 
+    #define GLP_CHECKED_CALL(arg) arg 
 #endif
 
 }

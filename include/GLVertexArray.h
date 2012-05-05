@@ -32,99 +32,99 @@
 #include "GLVertexBuffer.h"
 
 namespace glp {
-	
+    
 class VertexArray : boost::noncopyable {
 public:
-	VertexArray()
-		: vbo_size(0), ibo_size(0), ibo_type(GL_FALSE)
-	{
-		GLP_CHECKED_CALL(glGenVertexArrays(1, &vao);)
-	}
+    VertexArray()
+        : vbo_size(0), ibo_size(0), ibo_type(GL_FALSE)
+    {
+        GLP_CHECKED_CALL(glGenVertexArrays(1, &vao);)
+    }
 
-	void bind()
-	{
-		GLP_CHECKED_CALL(glBindVertexArray(vao);)
-	}
+    void bind()
+    {
+        GLP_CHECKED_CALL(glBindVertexArray(vao);)
+    }
 
-	template<class T>
-	void attach(VertexBuffer<T> &vbo)
-	{
-		this->bind();
-		vbo.bind();
-		this->unbind();
-		vbo.unbind();
-		if(vbo.getDivisor() == 0)
-			vbo_size = vbo.size();
-	}
-	
-	template<class T>
-	void attach(IndexBuffer<T> &ibo)
-	{
-		this->bind();
-		ibo.bind();
-		this->unbind();
-		ibo.unbind();
-		ibo_type = TypeToGLConstant<T>::value;
-		ibo_size = ibo.size();
-	}
-	
-	void setVertexCount(size_t n) { vbo_size = n; }
-	
-	void draw(GLenum primitives)
-	{
-		this->bind();
-		
-		if(ibo_type == GL_FALSE)
-			GLP_CHECKED_CALL(glDrawArrays(primitives, 0, vbo_size);)
-		else
-			GLP_CHECKED_CALL(glDrawElements(primitives, ibo_size, ibo_type, 0);)
-			
-		this->unbind();
-	}
+    template<class T>
+    void attach(VertexBuffer<T> &vbo)
+    {
+        this->bind();
+        vbo.bind();
+        this->unbind();
+        vbo.unbind();
+        if(vbo.getDivisor() == 0)
+            vbo_size = vbo.size();
+    }
+    
+    template<class T>
+    void attach(IndexBuffer<T> &ibo)
+    {
+        this->bind();
+        ibo.bind();
+        this->unbind();
+        ibo.unbind();
+        ibo_type = TypeToGLConstant<T>::value;
+        ibo_size = ibo.size();
+    }
+    
+    void setVertexCount(size_t n) { vbo_size = n; }
+    
+    void draw(GLenum primitives)
+    {
+        this->bind();
+        
+        if(ibo_type == GL_FALSE)
+            GLP_CHECKED_CALL(glDrawArrays(primitives, 0, vbo_size);)
+        else
+            GLP_CHECKED_CALL(glDrawElements(primitives, ibo_size, ibo_type, 0);)
+            
+        this->unbind();
+    }
 
-	void drawInstanced(GLenum primitives, GLsizei primcount)
-	{
-		this->bind();
-		
-		if(ibo_type == GL_FALSE)
-			GLP_CHECKED_CALL(glDrawArraysInstanced(primitives, 0, vbo_size, primcount);)
-		else
-			GLP_CHECKED_CALL(glDrawElementsInstanced(primitives,  ibo_size,  ibo_type, 0, primcount);)
-		
-		this->unbind();
-	}
+    void drawInstanced(GLenum primitives, GLsizei primcount)
+    {
+        this->bind();
+        
+        if(ibo_type == GL_FALSE)
+            GLP_CHECKED_CALL(glDrawArraysInstanced(primitives, 0, vbo_size, primcount);)
+        else
+            GLP_CHECKED_CALL(glDrawElementsInstanced(primitives,  ibo_size,  ibo_type, 0, primcount);)
+        
+        this->unbind();
+    }
 
-	void draw(GLenum primitives, GLuint begin, GLuint end)
-	{
-		this->bind();
-		
-		if(ibo_type == GL_FALSE)
-			GLP_CHECKED_CALL(glDrawArrays(primitives, begin, end-begin);)
-		else
-			GLP_CHECKED_CALL(glDrawRangeElements(primitives, 0, vbo_size, end-begin, ibo_type, static_cast<GLubyte*>(0)+begin);)
-		
-		this->unbind();
-	}
+    void draw(GLenum primitives, GLuint begin, GLuint end)
+    {
+        this->bind();
+        
+        if(ibo_type == GL_FALSE)
+            GLP_CHECKED_CALL(glDrawArrays(primitives, begin, end-begin);)
+        else
+            GLP_CHECKED_CALL(glDrawRangeElements(primitives, 0, vbo_size, end-begin, ibo_type, static_cast<GLubyte*>(0)+begin);)
+        
+        this->unbind();
+    }
 
-	void unbind()
-	{
-		GLP_CHECKED_CALL(glBindVertexArray(0);)
-	}
-	
-	~VertexArray()
-	{
-		GLP_CHECKED_CALL(glDeleteVertexArrays(1, &vao);)
-	}
+    void unbind()
+    {
+        GLP_CHECKED_CALL(glBindVertexArray(0);)
+    }
+    
+    ~VertexArray()
+    {
+        GLP_CHECKED_CALL(glDeleteVertexArrays(1, &vao);)
+    }
 private:
-	GLuint vao;
-	size_t vbo_size;
-	size_t ibo_size;
-	GLenum ibo_type;
+    GLuint vao;
+    size_t vbo_size;
+    size_t ibo_size;
+    GLenum ibo_type;
 };
 
 }
 #endif
 
-	
+    
 
 

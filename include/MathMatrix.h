@@ -44,75 +44,75 @@ public:
 };
 
 //better use macros instead of copy pasting this stuff all over the place
-#define MAKE_MAT_MAT_EXPRESSION(NAME, EXPR, FUNCTION)					\
-template<class T, unsigned D1, unsigned D2, class A, class B>			\
-class NAME : public MatrixExpr<T, D1, D2, NAME<T, D1, D2, A, B> > {		\
-public:																	\
-	NAME(const A& pa, const B& pb) : a(pa), b(pb)	{ }					\
-	inline T operator()(unsigned i, unsigned j) const { return EXPR; }	\
-private:																\
-	const A& a;															\
-    const B& b;															\
-};																		\
-																		\
-template<class T, unsigned D1, unsigned D2, class A, class B>			\
-inline NAME<T,D1,D2,A,B>												\
+#define MAKE_MAT_MAT_EXPRESSION(NAME, EXPR, FUNCTION)                   \
+template<class T, unsigned D1, unsigned D2, class A, class B>           \
+class NAME : public MatrixExpr<T, D1, D2, NAME<T, D1, D2, A, B> > {     \
+public:                                                                 \
+    NAME(const A& pa, const B& pb) : a(pa), b(pb)   { }                 \
+    inline T operator()(unsigned i, unsigned j) const { return EXPR; }  \
+private:                                                                \
+    const A& a;                                                         \
+    const B& b;                                                         \
+};                                                                      \
+                                                                        \
+template<class T, unsigned D1, unsigned D2, class A, class B>           \
+inline NAME<T,D1,D2,A,B>                                                \
 FUNCTION(const MatrixExpr<T,D1,D2,A> &a, const MatrixExpr<T,D1,D2,B> &b)\
-{																		\
-	return NAME<T,D1,D2,A,B>(a, b);										\
+{                                                                       \
+    return NAME<T,D1,D2,A,B>(a, b);                                     \
 }
 
-#define MAKE_MAT_SCAL_EXPRESSION(NAME, EXPR, FUNCTION)					\
-template<class T, unsigned D1, unsigned D2, class A>					\
-class NAME : public MatrixExpr<T, D1, D2, NAME<T, D1, D2, A> > {		\
-public:																	\
-	NAME(const A& pa, const T& pb) : a(pa), b(pb)	{ }					\
-	inline T operator()(unsigned i, unsigned j) const { return EXPR; }	\
-private:																\
-	const A& a;															\
-    const T& b;															\
-};																		\
-																		\
-template<class T, unsigned D1, unsigned D2, class A>					\
-inline NAME<T,D1,D2,A>													\
-FUNCTION(const  MatrixExpr<T,D1,D2,A> &a, const T &b)					\
-{																		\
-	return NAME<T,D1,D2,A>(a, b);										\
+#define MAKE_MAT_SCAL_EXPRESSION(NAME, EXPR, FUNCTION)                  \
+template<class T, unsigned D1, unsigned D2, class A>                    \
+class NAME : public MatrixExpr<T, D1, D2, NAME<T, D1, D2, A> > {        \
+public:                                                                 \
+    NAME(const A& pa, const T& pb) : a(pa), b(pb)   { }                 \
+    inline T operator()(unsigned i, unsigned j) const { return EXPR; }  \
+private:                                                                \
+    const A& a;                                                         \
+    const T& b;                                                         \
+};                                                                      \
+                                                                        \
+template<class T, unsigned D1, unsigned D2, class A>                    \
+inline NAME<T,D1,D2,A>                                                  \
+FUNCTION(const  MatrixExpr<T,D1,D2,A> &a, const T &b)                   \
+{                                                                       \
+    return NAME<T,D1,D2,A>(a, b);                                       \
 }
 
-#define MAKE_SCAL_MAT_EXPRESSION(NAME, EXPR, FUNCTION)					\
-template<class T, unsigned D1, unsigned D2, class A>					\
-class NAME : public MatrixExpr<T, D1, D2, NAME<T, D1, D2, A> > {		\
-public:																	\
-	NAME(const T& pa, const A& pb) : a(pa), b(pb)	{ }					\
-	inline T operator()(unsigned i, unsigned j) const { return EXPR; }	\
-private:																\
-	const T& a;															\
-    const A& b;															\
-};																		\
-																		\
-template<class T, unsigned D1, unsigned D2, class A>					\
-inline NAME<T,D1,D2,A>													\
-FUNCTION(const T &a, const MatrixExpr<T,D1,D2,A> &b)					\
-{																		\
-	return NAME<T,D1,D2,A>(a, b);										\
+#define MAKE_SCAL_MAT_EXPRESSION(NAME, EXPR, FUNCTION)                  \
+template<class T, unsigned D1, unsigned D2, class A>                    \
+class NAME : public MatrixExpr<T, D1, D2, NAME<T, D1, D2, A> > {        \
+public:                                                                 \
+    NAME(const T& pa, const A& pb) : a(pa), b(pb)   { }                 \
+    inline T operator()(unsigned i, unsigned j) const { return EXPR; }  \
+private:                                                                \
+    const T& a;                                                         \
+    const A& b;                                                         \
+};                                                                      \
+                                                                        \
+template<class T, unsigned D1, unsigned D2, class A>                    \
+inline NAME<T,D1,D2,A>                                                  \
+FUNCTION(const T &a, const MatrixExpr<T,D1,D2,A> &b)                    \
+{                                                                       \
+    return NAME<T,D1,D2,A>(a, b);                                       \
 }
 
-#define MAKE_MAT_EXPRESSION(NAME, EXPR, FUNCTION)						\
-template<class T, unsigned D1, unsigned D2, class A>					\
-class NAME : public MatrixExpr<T, D1, D2, NAME<T, D1, D2, A> > {		\
-public:																	\
-	NAME(const A& pa) : a(pa)	{ }										\
-	inline T operator()(unsigned i, unsigned j) const { return EXPR; }	\
-private:																\
-	const A& a;															\
-};																		\
-																		\
-template<class T, unsigned D1, unsigned D2, class A>					\
-inline NAME<T,D1,D2,A>													\
-FUNCTION(const MatrixExpr<T,D1,D2,A> &a)								\
-{																		\
-	return NAME<T,D1,D2,A>(a);											\
+#define MAKE_MAT_EXPRESSION(NAME, EXPR, FUNCTION)                       \
+template<class T, unsigned D1, unsigned D2, class A>                    \
+class NAME : public MatrixExpr<T, D1, D2, NAME<T, D1, D2, A> > {        \
+public:                                                                 \
+    NAME(const A& pa) : a(pa)   { }                                     \
+    inline T operator()(unsigned i, unsigned j) const { return EXPR; }  \
+private:                                                                \
+    const A& a;                                                         \
+};                                                                      \
+                                                                        \
+template<class T, unsigned D1, unsigned D2, class A>                    \
+inline NAME<T,D1,D2,A>                                                  \
+FUNCTION(const MatrixExpr<T,D1,D2,A> &a)                                \
+{                                                                       \
+    return NAME<T,D1,D2,A>(a);                                          \
 }
 
 //create actual functions and operators
@@ -129,7 +129,7 @@ MAKE_MAT_EXPRESSION     (MATNegExpr, -a(i,j), operator-)
 template<class T, unsigned D1, unsigned D2, class A>
 class TransExpr : public MatrixExpr<T, D1, D2, TransExpr<T, D1, D2, A> > {
 public:
-    TransExpr(const A& pa) : a(pa)	{ }
+    TransExpr(const A& pa) : a(pa)  { }
     inline T operator()(unsigned i, unsigned j) const {
         return a(j,i);
     }
@@ -148,7 +148,7 @@ Transpose(const MatrixExpr<T,D1,D2,A> &a)
 template<class T, unsigned D1, unsigned D2, class A>
 class RowVectorExpr : public VectorExpr<T, D2, RowVectorExpr<T, D1, D2, A> > {
 public:
-    RowVectorExpr(const A& pa, const unsigned& i) : a(pa), index(i)	{ }
+    RowVectorExpr(const A& pa, const unsigned& i) : a(pa), index(i) { }
     inline T operator[](unsigned i) const {
         return a(index, i);
     }
@@ -167,7 +167,7 @@ Row(const MatrixExpr<T,D1,D2,A> &a, const unsigned &index)
 template<class T, unsigned D1, unsigned D2, class A>
 class ColumnVectorExpr : public VectorExpr<T, D1, ColumnVectorExpr<T, D1, D2, A> > {
 public:
-    ColumnVectorExpr(const A& pa, const unsigned& i) : a(pa), index(i)	{ }
+    ColumnVectorExpr(const A& pa, const unsigned& i) : a(pa), index(i)  { }
     inline T operator[](unsigned i) const {
         return a(i, index);
     }
@@ -187,7 +187,7 @@ template<class T, unsigned D1, unsigned D2, class A>
 class SubMatrixExpr : public MatrixExpr<T, D1, D2, SubMatrixExpr<T, D1, D2, A> > {
 public:
     SubMatrixExpr(const A& pa, const unsigned& i, const unsigned& j)
-        : a(pa), offseti(i), offsetj(j)	{ }
+        : a(pa), offseti(i), offsetj(j) { }
     inline T operator()(unsigned i, unsigned j) const
     {
         return a(i+offseti, j+offsetj);
@@ -208,7 +208,7 @@ SubMatrix(const MatrixExpr<T,D1,D2,A> &a, const unsigned &i, const unsigned &j)
 template<class T, unsigned D1, unsigned D2, class A, class B>
 class MatVecMulExpr : public VectorExpr<T, D1, MatVecMulExpr<T, D1, D2, A, B> > {
 public:
-    MatVecMulExpr(const A& pa, const B& pb) : a(pa), b(pb)	{ }
+    MatVecMulExpr(const A& pa, const B& pb) : a(pa), b(pb)  { }
     inline T operator[](unsigned i) const {
         return dot(Row(a, i), b);
     }
@@ -227,7 +227,7 @@ operator*(const MatrixExpr<T,D1,D2,A> &a, const VectorExpr<T,D2,B> &b)
 template<class T, unsigned D1, unsigned D2, class A, class B>
 class VecMatMulExpr : public VectorExpr<T, D2, VecMatMulExpr<T, D1, D2, A, B> > {
 public:
-    VecMatMulExpr(const A& pa, const B& pb) : a(pa), b(pb)	{ }
+    VecMatMulExpr(const A& pa, const B& pb) : a(pa), b(pb)  { }
     inline T operator[](unsigned i) const {
         return dot(Column(a, i), b);
     }
@@ -246,7 +246,7 @@ operator*(const VectorExpr<T,D1,B> &b, const MatrixExpr<T,D1,D2,A> &a)
 template<class T, unsigned D1, unsigned D2, class A, class B>
 class MatMatMulExpr : public MatrixExpr<T, D1, D2, MatMatMulExpr<T, D1, D2, A, B> > {
 public:
-    MatMatMulExpr(const A& pa, const B& pb) : a(pa), b(pb)	{ }
+    MatMatMulExpr(const A& pa, const B& pb) : a(pa), b(pb)  { }
     inline T operator()(unsigned i, unsigned j) const {
         return dot(Row(a,i),Column(b,j));
     }
@@ -474,8 +474,8 @@ std::ostream& operator<<(std::ostream& out, const MatrixExpr<T, D1, D2, A>& a)
 template<class T, unsigned D1, unsigned D2>
 struct vector_traits< Matrix<T,D1,D2> >
 {
-	typedef T element_type;
-	static const size_t dimension = D1*D2;
+    typedef T element_type;
+    static const size_t dimension = D1*D2;
 };
 
 #undef MAKE_MAT_MAT_EXPRESSION

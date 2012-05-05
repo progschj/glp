@@ -34,7 +34,7 @@
 #include "GLCheckError.h"
 
 namespace glp {
-	
+    
 GLenum getDataFormat(GLint format)
 {
     switch(format)
@@ -139,17 +139,17 @@ GLenum getDataFormat(GLint format)
 
 GLsizei getComponents(GLint format)
 {
-	switch(getDataFormat(format))
-	{
+    switch(getDataFormat(format))
+    {
 
-		case GL_RG:					return 2;
-		case GL_RGB:				return 3;
-		case GL_RGBA:				return 4;
-		
-		case GL_RED:
-		case GL_DEPTH_COMPONENT:
-		case GL_DEPTH_STENCIL:
-		case GL_UNSIGNED_BYTE_3_3_2:
+        case GL_RG:                 return 2;
+        case GL_RGB:                return 3;
+        case GL_RGBA:               return 4;
+        
+        case GL_RED:
+        case GL_DEPTH_COMPONENT:
+        case GL_DEPTH_STENCIL:
+        case GL_UNSIGNED_BYTE_3_3_2:
         case GL_UNSIGNED_BYTE_2_3_3_REV:
         case GL_UNSIGNED_SHORT_5_6_5:
         case GL_UNSIGNED_SHORT_5_6_5_REV:
@@ -164,10 +164,10 @@ GLsizei getComponents(GLint format)
         case GL_UNSIGNED_INT_24_8:
         case GL_UNSIGNED_INT_10F_11F_11F_REV:
         case GL_UNSIGNED_INT_5_9_9_9_REV:
-									return 1;
-		
-		default: 					return 0;
-	}
+                                    return 1;
+        
+        default:                    return 0;
+    }
 }
 
 class Texture2D : boost::noncopyable  {
@@ -191,11 +191,11 @@ public:
         GLP_CHECKED_CALL(glGenTextures(1, &tex);)
         GLP_CHECKED_CALL(glBindTexture(GL_TEXTURE_2D, tex);)
         GLP_CHECKED_CALL(glTexImage2D(GL_TEXTURE_2D, 0, format,
-					width, height, 0, getDataFormat(format),
-					TypeToGLConstant<
-						typename boost::remove_const<T>::type
-					>::value,
-					data);)
+                    width, height, 0, getDataFormat(format),
+                    TypeToGLConstant<
+                        typename boost::remove_const<T>::type
+                    >::value,
+                    data);)
         GLP_CHECKED_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);)
         GLP_CHECKED_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);)
         GLP_CHECKED_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);)
@@ -240,13 +240,13 @@ public:
     
     GLsizei getWidth() const
     {
-		return width;
-	}
-	
-	GLsizei getHeight() const
-	{
-		return height;
-	}
+        return width;
+    }
+    
+    GLsizei getHeight() const
+    {
+        return height;
+    }
 
     void bind()
     {
@@ -297,13 +297,13 @@ public:
     
     GLsizei getWidth() const
     {
-		return width;
-	}
-	
-	GLsizei getHeight() const
-	{
-		return height;
-	}
+        return width;
+    }
+    
+    GLsizei getHeight() const
+    {
+        return height;
+    }
 
     void bind()
     {
@@ -353,11 +353,11 @@ public:
         GLP_CHECKED_CALL(glGenTextures(1, &tex);)
         GLP_CHECKED_CALL(glBindTexture(GL_TEXTURE_3D, tex);)
         GLP_CHECKED_CALL(glTexImage3D(GL_TEXTURE_3D, 0, format,
-					width, height, depth, 0, getDataFormat(format),
-					TypeToGLConstant<
-						typename boost::remove_const<T>::type
-					>::value,
-					data);)
+                    width, height, depth, 0, getDataFormat(format),
+                    TypeToGLConstant<
+                        typename boost::remove_const<T>::type
+                    >::value,
+                    data);)
         GLP_CHECKED_CALL(glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);)
         GLP_CHECKED_CALL(glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);)
         GLP_CHECKED_CALL(glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);)
@@ -409,18 +409,18 @@ public:
     
     GLsizei getWidth() const
     {
-		return width;
-	}
-	
-	GLsizei getHeight() const
-	{
-		return height;
-	}
-	
-	GLsizei getDepth() const
-	{
-		return depth;
-	}
+        return width;
+    }
+    
+    GLsizei getHeight() const
+    {
+        return height;
+    }
+    
+    GLsizei getDepth() const
+    {
+        return depth;
+    }
 
     void bind()
     {
@@ -450,34 +450,34 @@ private:
 
 class BufferTexture : boost::noncopyable  {
 public:
-	BufferTexture(GLenum f)
-		: format(f)
-	{
-		GLP_CHECKED_CALL(glGenTextures(1, &tex);)
+    BufferTexture(GLenum f)
+        : format(f)
+    {
+        GLP_CHECKED_CALL(glGenTextures(1, &tex);)
         GLP_CHECKED_CALL(glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, tex);)
-	}
-	
-	BufferTexture(GLenum f, GLuint buffer)
-		: format(f)
-	{
-		GLP_CHECKED_CALL(glGenTextures(1, &tex);)
+    }
+    
+    BufferTexture(GLenum f, GLuint buffer)
+        : format(f)
+    {
+        GLP_CHECKED_CALL(glGenTextures(1, &tex);)
         GLP_CHECKED_CALL(glBindTexture(GL_TEXTURE_BUFFER, tex);)
         GLP_CHECKED_CALL(glTexBuffer(GL_TEXTURE_BUFFER, format, buffer);)
-	}
-	
-	void attachBuffer(GLuint buffer)
-	{
-		GLP_CHECKED_CALL(glBindTexture(GL_TEXTURE_BUFFER, tex);)
-		GLP_CHECKED_CALL(glTexBuffer(GL_TEXTURE_BUFFER, format, buffer);)
-	}
-	
-	void detachBuffer()
-	{
-		GLP_CHECKED_CALL(glBindTexture(GL_TEXTURE_BUFFER, tex);)
-		GLP_CHECKED_CALL(glTexBuffer(GL_TEXTURE_BUFFER, format, 0);)
-	}
-	
-	GLenum getFormat() const
+    }
+    
+    void attachBuffer(GLuint buffer)
+    {
+        GLP_CHECKED_CALL(glBindTexture(GL_TEXTURE_BUFFER, tex);)
+        GLP_CHECKED_CALL(glTexBuffer(GL_TEXTURE_BUFFER, format, buffer);)
+    }
+    
+    void detachBuffer()
+    {
+        GLP_CHECKED_CALL(glBindTexture(GL_TEXTURE_BUFFER, tex);)
+        GLP_CHECKED_CALL(glTexBuffer(GL_TEXTURE_BUFFER, format, 0);)
+    }
+    
+    GLenum getFormat() const
     {
         return format;
     }
@@ -497,9 +497,9 @@ public:
     {
         return tex;
     }
-	
-	~BufferTexture()
-	{
+    
+    ~BufferTexture()
+    {
         GLP_CHECKED_CALL(glDeleteTextures(1, &tex);)
     }
 private:
