@@ -53,15 +53,15 @@ public:
 	
 	bool available()
 	{
-		GLuint result;
-		GLP_CHECKED_CALL(glGetQueryObjectuiv(id, GL_QUERY_RESULT_AVAILABLE, &result);)
+		GLuint64 result;
+		GLP_CHECKED_CALL(glGetQueryObjectui64v(id, GL_QUERY_RESULT_AVAILABLE, &result);)
 		return result == GL_TRUE;
 	}
 
-	GLuint result()
+	GLuint64 result()
 	{
-		GLuint result;
-		GLP_CHECKED_CALL(glGetQueryObjectuiv(id, GL_QUERY_RESULT, &result);)
+		GLuint64 result;
+		GLP_CHECKED_CALL(glGetQueryObjectui64v(id, GL_QUERY_RESULT, &result);)
 		return result;
 	}
 	
